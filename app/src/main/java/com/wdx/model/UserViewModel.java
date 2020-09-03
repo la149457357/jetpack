@@ -13,6 +13,7 @@ import com.wdx.model.info.UserInfo;
 public class UserViewModel extends ViewModel {
     public UserInfo userInfo;
 
+
     public UserViewModel(){
         if(userInfo == null){
             userInfo = new UserInfo();
@@ -21,4 +22,6 @@ public class UserViewModel extends ViewModel {
     public void requestServerInfo(String name) {
         this.userInfo.setName(name);
     }
+
+
 }
