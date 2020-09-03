@@ -3,6 +3,7 @@ package com.wdx.common.http;
 import android.util.Log;
 
 
+import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -83,5 +84,18 @@ public class MyRequestParams {
             apiver= HttpConfig.apiver;//	请求版本
         }
     }
+
+    public void setRequestParams(){
+        Class clasz=this.getClass();
+        Field[] fileds= clasz.getDeclaredFields();
+        for (Field field : fileds) {
+            try {
+                addParams(""+field.getName(),field.get(this));
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 
 }

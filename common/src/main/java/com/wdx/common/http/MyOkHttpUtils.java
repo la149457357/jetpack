@@ -49,7 +49,7 @@ public class MyOkHttpUtils<T> {
                 loginParams.addParams("password",loginParams.password);
                 MyOkHttpUtils.getInstances().request_okPost(this,BaseConfig.LOGIN,new LoginInfoResult(),loginParams,mUserCallBack,myProgressDialog);*/
 
-    public void request_okPost(final Context context, String requestType, final T t, MyRequestParams myRequestParams, final HttpCallBack<T> mHttpCallBack) {
+    public void request_okPost(String requestType, final T t, MyRequestParams myRequestParams, final HttpCallBack<T> mHttpCallBack) {
         this.t = t;
         String json = gson.toJson(myRequestParams, MyRequestParams.class);
 
@@ -85,7 +85,6 @@ public class MyOkHttpUtils<T> {
                 }catch (Exception e){
                     Looper.prepare();
                     e.printStackTrace();
-                    Toast.makeText(context,""+t.getClass()+" , json解析异常",Toast.LENGTH_SHORT).show();
                     mHttpCallBack.onError(e);
                     Looper.loop();
                 }
