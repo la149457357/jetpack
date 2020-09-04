@@ -12,6 +12,9 @@
         <activity android:name=".TestActivity">
 
         </activity>
+        <activity android:name=".KotlinTestActivity">
+
+        </activity>
 
         <service android:name=".TestNewService">
 

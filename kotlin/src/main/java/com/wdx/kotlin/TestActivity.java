@@ -14,16 +14,20 @@ import com.alibaba.android.arouter.launcher.ARouter;
 /**
  *
  */
+@Route(path = "/kotlin/kotlintestactivity")
 public class TestActivity extends AppCompatActivity{
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_kotlin);
        TextView tv_hhh = findViewById(R.id.tv_hhh);
+
        tv_hhh.setOnClickListener(new OnClickListener() {
            @Override
            public void onClick(View view) {
+
                Toast.makeText(TestActivity.this,"我关闭了",Toast.LENGTH_LONG).show();
                ARouter.getInstance().build("/ttt/testotheractivity").navigation();
                Log.e("wdx","start ===========");

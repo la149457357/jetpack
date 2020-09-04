@@ -7,6 +7,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.launcher.ARouter;
 
 @Route(path = "/ttt/testotheractivity")
 public class TestOtherActivity extends AppCompatActivity {
@@ -19,6 +20,7 @@ public class TestOtherActivity extends AppCompatActivity {
         tv_router.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
+                ARouter.getInstance().build("/kotlin/kotlintestactivity").navigation();
                 finish();
             }
         });

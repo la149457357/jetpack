@@ -7,4 +7,7 @@ package com.wdx.kotlin;
  */
 public class KotlinTest {
 
+    public static void main(String[] args) {
+
+    }
 }

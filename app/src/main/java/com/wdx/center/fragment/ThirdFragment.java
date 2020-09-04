@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.wdx.center.R;
+import com.wdx.kotlin.KotlinTestActivity;
 import com.wdx.kotlin.TestActivity;
 
 /**
@@ -48,6 +49,9 @@ public class ThirdFragment extends Fragment {
                 Navigation.findNavController(layout).navigate(R.id.fragment_first);
                 Intent intent=new Intent(getActivity(),TestActivity.class);
                 getActivity().startActivity(intent);
+               // Intent intent =new Intent(getActivity(), KotlinTestActivity.class);
+               // getActivity().startActivity(intent);
+
 
             }
         });
