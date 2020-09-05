@@ -1,5 +1,5 @@
 # jetpack
-这是一个关于android jetpack开发的的库
+这是一个关于android jetpack 组件化开发库
 
 1添加Livedata
 
@@ -13,8 +13,8 @@
 
 6增加workmanager
 
+7添加room
 
-总
 有不对的地方欢迎大家指出本人邮箱la149457357 @ 163.com
 
 增加接口请求方式
