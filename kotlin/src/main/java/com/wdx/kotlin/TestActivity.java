@@ -14,7 +14,7 @@ import com.alibaba.android.arouter.launcher.ARouter;
 /**
  *
  */
-@Route(path = "/kotlin/kotlintestactivity")
+@Route(path = "/kotlin/testactivity")
 public class TestActivity extends AppCompatActivity{
 
 
