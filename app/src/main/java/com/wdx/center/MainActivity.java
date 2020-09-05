@@ -8,6 +8,8 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.widget.EditText;
 import androidx.annotation.NonNull;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import androidx.work.BackoffPolicy;
@@ -19,11 +21,13 @@ import androidx.work.WorkRequest;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 import com.google.common.util.concurrent.ListenableFuture;
+import com.wdx.center.adapter.ConcertViewAdapter;
 import com.wdx.center.view.VideoPlayerView;
 import com.wdx.center.worker.MyListenWorker;
 import com.wdx.common.midia.MyTestImpl;
 import com.wdx.kotlin.KotlinTest;
 import com.wdx.kotlin.TestNewService;
+import com.wdx.model.ConcertViewModel;
 import com.wdx.model.UserViewModel;
 import com.wdx.tv.Movie;
 import java.util.Arrays;
@@ -92,6 +96,14 @@ public class MainActivity extends BaseActivity {
 
         et_input = findViewById(R.id.et_input);
         rcv_list = findViewById(R.id.rcv_list);
+
+        rcv_list = findViewById(R.id.rcv_list);
+        ConcertViewAdapter adapter = new ConcertViewAdapter();
+        ConcertViewModel viewModel = new ConcertViewModel();
+        viewModel.getConvertList().observe(this, concerts -> adapter.submitList(concerts));
+        rcv_list.setAdapter(adapter);
+        rcv_list.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        rcv_list.addItemDecoration(new SimplePaddingDecoration(this));
 
     }
     private void setListener() {
