@@ -8,11 +8,14 @@ import android.widget.EditText;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import androidx.room.Room;
 import androidx.work.BackoffPolicy;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
 import com.wdx.center.adapter.ConcertViewAdapter;
 import com.wdx.center.adapter.SimplePaddingDecoration;
+import com.wdx.center.app.MyApplication;
+import com.wdx.center.room.database.AppDatabase;
 import com.wdx.center.view.VideoPlayerView;
 import com.wdx.center.worker.MyListenWorker;
 import com.wdx.common.midia.MyTestImpl;
@@ -40,6 +43,8 @@ public class MainActivity extends BaseActivity {
         startService();
         startWorkManager();
     }
+
+
 
 
     private void startWorkManager() {
