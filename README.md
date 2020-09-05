@@ -5,9 +5,9 @@
 
 2添加ARouter
 
-3导航
+3navagation
 
-4视图模型
+4增加viewmodel
 
 5Paging正在研究中。。。。。
 
