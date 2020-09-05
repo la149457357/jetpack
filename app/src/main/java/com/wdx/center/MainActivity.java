@@ -1,27 +1,18 @@
 package com.wdx.center;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.widget.EditText;
-import androidx.annotation.NonNull;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import androidx.work.BackoffPolicy;
-import androidx.work.Data;
-import androidx.work.ListenableWorker;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
-import androidx.work.WorkRequest;
-import androidx.work.Worker;
-import androidx.work.WorkerParameters;
-import com.google.common.util.concurrent.ListenableFuture;
 import com.wdx.center.adapter.ConcertViewAdapter;
+import com.wdx.center.adapter.SimplePaddingDecoration;
 import com.wdx.center.view.VideoPlayerView;
 import com.wdx.center.worker.MyListenWorker;
 import com.wdx.common.midia.MyTestImpl;
@@ -30,7 +21,6 @@ import com.wdx.kotlin.TestNewService;
 import com.wdx.model.ConcertViewModel;
 import com.wdx.model.UserViewModel;
 import com.wdx.tv.Movie;
-import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 

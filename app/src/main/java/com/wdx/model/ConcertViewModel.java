@@ -17,10 +17,10 @@ public class ConcertViewModel extends BaseViewModel {
 
     public  MutableLiveData<ArrayList<Concert>> convertList;
     private DataSource<Integer, Concert> concertDataSource;
-
+    public ArrayList pagedlist;
     public ConcertViewModel() {
         convertList = new MutableLiveData() ;
-        ArrayList pagedlist=new ArrayList();
+        pagedlist=new ArrayList();
         pagedlist.add(new Concert());
         pagedlist.add(new Concert());
         pagedlist.add(new Concert());

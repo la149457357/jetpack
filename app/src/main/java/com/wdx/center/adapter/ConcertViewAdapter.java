@@ -1,5 +1,6 @@
 package com.wdx.center.adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,12 +42,17 @@ public class ConcertViewAdapter extends RecyclerView.Adapter<ConcertViewAdapter.
 
     }
 
+    @Override
+    public long getItemId(int position) {
+        return super.getItemId(position);
+    }
 
     @Override
     public int getItemCount() {
         if(concerts == null){
             return 0;
         }
+        Log.e("wdx",""+concerts.size());
         return concerts.size();
     }
 
@@ -54,6 +60,7 @@ public class ConcertViewAdapter extends RecyclerView.Adapter<ConcertViewAdapter.
    public ArrayList<Concert> concerts;
     public void submitList(ArrayList<Concert> concerts) {
         this.concerts=concerts;
+        notifyDataSetChanged();
     }
 
     public static class VH extends RecyclerView.ViewHolder {

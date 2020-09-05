@@ -1,9 +1,10 @@
-package com.wdx.center;
+package com.wdx.center.adapter;
 
 import android.content.Context;
 import android.graphics.Rect;
 import android.view.View;
 import androidx.recyclerview.widget.RecyclerView;
+import com.wdx.center.R;
 
 /**
  * @ Description:
