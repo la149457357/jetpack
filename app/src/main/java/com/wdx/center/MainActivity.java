@@ -1,18 +1,33 @@
 package com.wdx.center;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.widget.EditText;
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import androidx.work.BackoffPolicy;
+import androidx.work.Data;
+import androidx.work.ListenableWorker;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
+import androidx.work.WorkRequest;
+import androidx.work.Worker;
+import androidx.work.WorkerParameters;
+import com.google.common.util.concurrent.ListenableFuture;
 import com.wdx.center.view.VideoPlayerView;
+import com.wdx.center.worker.MyListenWorker;
 import com.wdx.common.midia.MyTestImpl;
 import com.wdx.kotlin.KotlinTest;
 import com.wdx.kotlin.TestNewService;
 import com.wdx.model.UserViewModel;
 import com.wdx.tv.Movie;
+import java.util.Arrays;
+import java.util.concurrent.TimeUnit;
 
 
 public class MainActivity extends BaseActivity {
@@ -29,6 +44,28 @@ public class MainActivity extends BaseActivity {
         setData();
         setListener();
         startService();
+        startWorkManager();
+    }
+
+
+    private void startWorkManager() {
+
+        OneTimeWorkRequest secondWork = new OneTimeWorkRequest.Builder(MyListenWorker.class)
+                .setInitialDelay(5000, TimeUnit.MILLISECONDS) // 在满足约束条件的前提下，初始延迟时间为5S
+                .setBackoffCriteria(BackoffPolicy.LINEAR,10,TimeUnit.SECONDS) // 重试间隔时间为：curTime + 10 * 重试次数
+                .build();
+
+      /*  OneTimeWorkRequest workA = OneTimeWorkRequest.from(MyListenWorker.class);
+        OneTimeWorkRequest workB = OneTimeWorkRequest.from(MyListenWorker.class);
+        OneTimeWorkRequest workC = OneTimeWorkRequest.from(MyListenWorker.class);
+        WorkManager.getInstance(this)
+    .beginWith(Arrays.asList(workA, workB))
+                .then(workC)
+                .enqueue();*/
+        WorkManager
+                .getInstance(this)
+                .enqueue(secondWork);
+
     }
 
     private void startService() {

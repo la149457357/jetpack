@@ -24,7 +24,7 @@ public class SplashActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         bindLayout(R.layout.activity_splash);
-         myHandler.sendEmptyMessageDelayed(1,2000);
+         myHandler.sendEmptyMessageDelayed(1,1000);
     }
 
     MyHandler myHandler=new MyHandler(this);
