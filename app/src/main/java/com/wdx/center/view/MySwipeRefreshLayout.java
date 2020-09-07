@@ -1,28 +1,38 @@
 package com.wdx.center.view;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
+import android.view.animation.Animation;
+import android.view.animation.Animation.AnimationListener;
+import android.view.animation.Transformation;
 import android.widget.AbsListView;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerView.OnScrollListener;
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.wdx.center.R;
+import com.wdx.common.utils.DensityUtils;
 
 /**
  * @ Description:
  * @ Author: wdx
  * @ CreateDate: 2020/9/7 15:17
  */
-public class MySwipeRefreshLayout extends SwipeRefreshLayout{
+public class MySwipeRefreshLayout extends LinearLayout {
 
     /**
      * 滑动到最下面时的上拉操作
@@ -53,57 +63,35 @@ public class MySwipeRefreshLayout extends SwipeRefreshLayout{
 
     private int mTotalItemCount;
 
+    Context mContext;
     public MySwipeRefreshLayout(Context context) {
         this(context, null);
+        mContext=context;
     }
 
     public MySwipeRefreshLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
-        mTounchslop = ViewConfiguration.get(context).getScaledTouchSlop();
-        mListViewFooter = LayoutInflater.from(context).inflate(R.layout.footer_item, null);
-        mTvLoadMore = (TextView) mListViewFooter.findViewById(R.id.tv_loadmore);
+        mContext=context;
+        init();
     }
 
-    @Override
-    protected void onLayout(boolean changed, int left, int top, int right,
-            int bottom) {
-        super.onLayout(changed, left, top, right, bottom);
-        //初始化ListView
-        if (mRecycleView == null) {
-            getListView();
-        }
+    private void init() {
+        mTounchslop = ViewConfiguration.get(mContext).getScaledTouchSlop();
+        mListViewFooter = LayoutInflater.from(mContext).inflate(R.layout.footer_item, null);
+        mTvLoadMore = mListViewFooter.findViewById(R.id.tv_loadmore);
+        mTvLoadMore.setText("加载更多");
+        LayoutParams layoutParams=new LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.MATCH_PARENT);
+        mListViewFooter.setLayoutParams(layoutParams);
+
     }
+
     public void setRecycleView(RecyclerView mRecycleView){
         this.mRecycleView = mRecycleView;
     }
     /**
      * 获取ListView对象
      */
-    private void getListView() {
-        int childCount = getChildCount();
-        if (childCount > 0) {
-            for (int i = 0; i < childCount; i++) {
-                View child = getChildAt(i);
-                if (child instanceof ListView) {
-                    mRecycleView = (RecyclerView) child;
-                    // 设置滚动监听器给ListView, 使得滚动的情况下也可以自动加载
-                    mRecycleView.addOnScrollListener(new OnScrollListener() {
-                        @Override
-                        public void onScrollStateChanged(@NonNull RecyclerView recyclerView,
-                                int newState) {
-                            super.onScrollStateChanged(recyclerView, newState);
-                        }
 
-                        @Override
-                        public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                            super.onScrolled(recyclerView, dx, dy);
-
-                        }
-                    });
-                }
-            }
-        }
-    }
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
@@ -118,6 +106,7 @@ public class MySwipeRefreshLayout extends SwipeRefreshLayout{
                 break;
 
             case MotionEvent.ACTION_UP:
+
                 if (canLoad()) {
                     loadData();
                 }
@@ -129,13 +118,6 @@ public class MySwipeRefreshLayout extends SwipeRefreshLayout{
         return super.dispatchTouchEvent(ev);
     }
 
-    public void setAdapte(ListView listView, ListAdapter adapter) {
-        if (listView != null) {
-            listView.addFooterView(mListViewFooter);
-            listView.setAdapter(adapter);
-            listView.removeFooterView(mListViewFooter);
-        }
-    }
 
     private boolean canLoad() {
         return !isLoading && isPullup()&&isLong();
@@ -167,39 +149,12 @@ public class MySwipeRefreshLayout extends SwipeRefreshLayout{
         return mYdown - mYlast >= mTounchslop;
     }
 
-    private void loadData() {
-        if (mOnLoadMoreListener != null) {
-            setLoading(true);
-            mOnLoadMoreListener.onLoadMore();
-        }
-    }
 
     public void setLoading(boolean loading) {
-       /* isLoading = loading;
-        if (loading) {
-            mRecycleView.getAdapter().addFooterView(mListViewFooter);
-        } else {
-            mRecycleView.removeFooterView(mListViewFooter);
-            mYdown = 0;
-            mYlast = 0;
-        }*/
 
     }
 
-    public void setLoadingContext(String string) {
-        mTvLoadMore.setText(string);
-    }
 
-    public void setLoadingContext(int resId) {
-        mTvLoadMore.setText(resId);
-    }
-
-
-
-    public void onScroll(AbsListView view, int firstVisibleItem,
-            int visibleItemCount, int totalItemCount) {
-
-    }
 
     public void setOnLoadMoreListener(OnLoadMoreListener listener) {
         mOnLoadMoreListener = listener;
@@ -212,5 +167,48 @@ public class MySwipeRefreshLayout extends SwipeRefreshLayout{
         void onLoadMore();
     }
 
+    private void loadData() {
+        if (mOnLoadMoreListener != null) {
+            setLoading(true);
+            mOnLoadMoreListener.onLoadMore();
+            RelativeLayout.LayoutParams layoutParams = getRelativeParms();
+            if(mListViewFooter.getParent()==null){
+                ((RelativeLayout)this.getParent()).addView(mListViewFooter,layoutParams);
+            }else {
+                ((RelativeLayout)this.getParent()).removeView(mListViewFooter);
+            }
 
+
+        }
+    }
+    public RelativeLayout.LayoutParams getRelativeParms(){
+        RelativeLayout.LayoutParams rLParams =
+                new RelativeLayout.LayoutParams(
+                        LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+        rLParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, 1);
+        return rLParams;
+
+    }
+
+    @Override
+    public void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+
+        measureChildren(widthMeasureSpec, heightMeasureSpec);
+
+    }
+
+    @Override
+    protected void onLayout(boolean changed, int left, int top, int right,
+            int bottom) {
+        super.onLayout(changed, left, top, right, bottom);
+        final int width = getMeasuredWidth();
+        final int height = getMeasuredHeight();
+        final int childLeft = getPaddingLeft();
+        final int childTop = getPaddingTop();
+        //由于这里child只有一个所以将整个长宽都设置给child
+        View child = this.getChildAt(0);
+        child.layout(childLeft, childTop, width - getPaddingRight(), height - getPaddingBottom());
+
+    }
 }

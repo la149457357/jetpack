@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil.ItemCallback;
@@ -49,6 +50,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         setListener();
         startService();
         startWorkManager();
+        ListView listView =new ListView(this);
     }
 
 
@@ -112,7 +114,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
 
     }
     private void setListener() {
-        swipeRefreshLayout.setOnRefreshListener(this);
+       // swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
@@ -152,6 +154,6 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     @Override
     public void onRefresh() {
         viewModel.setdatalist();
-        swipeRefreshLayout.setRefreshing(false);
+        //swipeRefreshLayout.setRefreshing(false);
     }
 }
