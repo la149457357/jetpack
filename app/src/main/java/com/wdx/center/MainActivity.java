@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil.ItemCallback;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,6 +15,7 @@ import androidx.work.BackoffPolicy;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
 import com.wdx.center.adapter.ConcertViewAdapter;
+import com.wdx.center.adapter.MyListAdapter;
 import com.wdx.center.adapter.SimplePaddingDecoration;
 import com.wdx.center.app.MyApplication;
 import com.wdx.center.room.database.AppDatabase;

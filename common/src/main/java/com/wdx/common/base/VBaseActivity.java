@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import com.google.gson.Gson;
 import com.wdx.common.R;
 import com.wdx.common.app.MyApplication;
@@ -29,7 +30,7 @@ import com.wdx.common.utils.SharePreferenceUtils;
  * Created by admin on 2017/12/22.
  */
 
-public class BaseActivity extends Activity implements View.OnClickListener{
+public class VBaseActivity extends AppCompatActivity implements View.OnClickListener{
     public MyApplication kApp;
     public Bundle baseBundle;
 
@@ -89,17 +90,7 @@ public class BaseActivity extends Activity implements View.OnClickListener{
 
     }
 
-    public int width;
-    public int height;
-    public void getScreenWithHeight(){
-        WindowManager wm = (WindowManager) this
-                .getSystemService(this.WINDOW_SERVICE);
-        width = wm.getDefaultDisplay().getWidth();
-        height = wm.getDefaultDisplay().getHeight();
 
-        final float scale = this.getResources().getDisplayMetrics().density;
-       // Toast.makeText(this,"width == "+width +"height ==" + height+" scale == "+scale,Toast.LENGTH_LONG).show();
-    }
     private void setTitleListener() {
         if(iv_back!=null){
             iv_back.setOnClickListener(this);
@@ -267,10 +258,10 @@ public class BaseActivity extends Activity implements View.OnClickListener{
                   SharePreferenceUtils.putString(this, BaseKey.PREFERENCES_USERINFO,"");
                   break;
               case "500":
-                  Toast.makeText(BaseActivity.this,"服务端数据异常",Toast.LENGTH_SHORT).show();
+                  Toast.makeText(VBaseActivity.this,"服务端数据异常",Toast.LENGTH_SHORT).show();
                   break;
               case "20003":
-                  Toast.makeText(BaseActivity.this,""+m.msg,Toast.LENGTH_SHORT).show();
+                  Toast.makeText(VBaseActivity.this,""+m.msg,Toast.LENGTH_SHORT).show();
                   break;
           }
       }

@@ -1,37 +1,35 @@
 package com.wdx.center.adapter;
 
-import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
-import androidx.paging.PagedListAdapter;
-import androidx.recyclerview.widget.AsyncDifferConfig;
-import androidx.recyclerview.widget.DiffUtil;
+import androidx.paging.PagingDataAdapter;
 import androidx.recyclerview.widget.DiffUtil.ItemCallback;
 import androidx.recyclerview.widget.RecyclerView.ViewHolder;
-import androidx.viewpager.widget.PagerAdapter;
+import kotlinx.coroutines.CoroutineDispatcher;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * @ Description:
  * @ Author: wdx
  * @ CreateDate: 2020/9/2 10:57
  */
-class MyListAdapter extends PagedListAdapter {
+public class MyListAdapter extends PagingDataAdapter {
 
 
-
-    MyItemCallBack myItemCallBack;
-    public MyItemCallBack getCallBack(){
-        if(myItemCallBack == null){
-            myItemCallBack=new MyItemCallBack();
-        }
-        return new MyItemCallBack();
+    public MyListAdapter(
+            @NotNull ItemCallback diffCallback,
+            @NotNull CoroutineDispatcher mainDispatcher) {
+        super(diffCallback, mainDispatcher);
     }
-    protected MyListAdapter(@NonNull ItemCallback diffCallback) {
+
+    public MyListAdapter(@NotNull ItemCallback diffCallback) {
         super(diffCallback);
     }
 
-    protected MyListAdapter(@NonNull AsyncDifferConfig config) {
-        super(config);
+    public MyListAdapter(@NotNull ItemCallback diffCallback,
+            @NotNull CoroutineDispatcher mainDispatcher,
+            @NotNull CoroutineDispatcher workerDispatcher) {
+        super(diffCallback, mainDispatcher, workerDispatcher);
     }
 
     @NonNull
@@ -43,18 +41,5 @@ class MyListAdapter extends PagedListAdapter {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-    }
-
-    public class MyItemCallBack extends DiffUtil.ItemCallback{
-
-        @Override
-        public boolean areItemsTheSame(@NonNull Object oldItem, @NonNull Object newItem) {
-            return false;
-        }
-
-        @Override
-        public boolean areContentsTheSame(@NonNull Object oldItem, @NonNull Object newItem) {
-            return false;
-        }
     }
 }

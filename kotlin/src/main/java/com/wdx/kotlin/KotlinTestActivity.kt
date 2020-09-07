@@ -5,8 +5,16 @@ import android.util.Log
 import android.view.MotionEvent
 import android.widget.TextView
 import android.widget.Toast
+import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
+import androidx.recyclerview.widget.RecyclerView
 import com.alibaba.android.arouter.facade.annotation.Route
-import com.wdx.common.base.BaseActivity
+import com.wdx.common.base.VBaseActivity
+import com.wdx.kotlin.adapter.KotlinAdapter
+import com.wdx.kotlin.adapter.MyViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.collectLatest
 
 
 /**
@@ -16,11 +24,17 @@ import com.wdx.common.base.BaseActivity
  * @ CreateDate: 2020/9/4 11:32
  */
 @Route(path = "/kotlin/kotlintestactivity")
-class KotlinTestActivity : BaseActivity() {
+class KotlinTestActivity : VBaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_kotlin_test)
         var tv_final = findViewById<TextView>(R.id.tv_final)
+        var rcv_kotlin_test = findViewById<RecyclerView>(R.id.rcv_kotlin_test)
+
+
+        var adapter = KotlinAdapter()
+
+
         Log.e("wdx", "********************************")
 
         tv_final.let {
