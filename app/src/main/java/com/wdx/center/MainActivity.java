@@ -50,7 +50,6 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         setListener();
         startService();
         startWorkManager();
-        ListView listView =new ListView(this);
     }
 
 
