@@ -5,12 +5,14 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil.ItemCallback;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import androidx.room.Room;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.work.BackoffPolicy;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
@@ -19,6 +21,8 @@ import com.wdx.center.adapter.MyListAdapter;
 import com.wdx.center.adapter.SimplePaddingDecoration;
 import com.wdx.center.app.MyApplication;
 import com.wdx.center.room.database.AppDatabase;
+import com.wdx.center.view.MySwipeRefreshLayout;
+import com.wdx.center.view.MySwipeRefreshLayout.OnLoadMoreListener;
 import com.wdx.center.view.VideoPlayerView;
 import com.wdx.center.worker.MyListenWorker;
 import com.wdx.common.midia.MyTestImpl;
@@ -30,7 +34,7 @@ import com.wdx.tv.Movie;
 import java.util.concurrent.TimeUnit;
 
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener{
 
 
     @Override
@@ -88,6 +92,8 @@ public class MainActivity extends BaseActivity {
 
     EditText et_input;
     RecyclerView rcv_list;
+    ConcertViewModel viewModel;
+    MySwipeRefreshLayout swipeRefreshLayout;
     private void initView() {
         VideoPlayerView videoPlayerView=new VideoPlayerView(this);
         videoPlayerView.setLifecycleOwner(this);
@@ -95,9 +101,10 @@ public class MainActivity extends BaseActivity {
         et_input = findViewById(R.id.et_input);
         rcv_list = findViewById(R.id.rcv_list);
 
-        rcv_list = findViewById(R.id.rcv_list);
+        swipeRefreshLayout =findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout.setRecycleView(rcv_list);
         ConcertViewAdapter adapter = new ConcertViewAdapter();
-        ConcertViewModel viewModel = new ConcertViewModel();
+        viewModel = new ConcertViewModel();
         viewModel.getConvertList().observe(this, concerts -> adapter.submitList(concerts));
         rcv_list.setAdapter(adapter);
         rcv_list.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
@@ -105,6 +112,14 @@ public class MainActivity extends BaseActivity {
 
     }
     private void setListener() {
+        swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore() {
+                viewModel.setOnload();
+                Toast.makeText(MainActivity.this,"loadmore",Toast.LENGTH_SHORT).show();
+            }
+        });
         et_input.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -132,5 +147,11 @@ public class MainActivity extends BaseActivity {
         activityMainBinding.setUserInfo(userViewModel.userInfo);
         userViewModel.requestServerInfo("输入信息");
         activityMainBinding.setLifecycleOwner(this);
+    }
+
+    @Override
+    public void onRefresh() {
+        viewModel.setdatalist();
+        swipeRefreshLayout.setRefreshing(false);
     }
 }

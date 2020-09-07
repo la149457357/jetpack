@@ -24,6 +24,19 @@ public class ConcertViewModel extends BaseViewModel {
         pagedlist.add(new Concert());
         pagedlist.add(new Concert());
         pagedlist.add(new Concert());
+        pagedlist.add(new Concert());
+        pagedlist.add(new Concert());
+        pagedlist.add(new Concert());
+        pagedlist.add(new Concert());
+        pagedlist.add(new Concert());
+        pagedlist.add(new Concert());
+        pagedlist.add(new Concert());
+        pagedlist.add(new Concert());
+        pagedlist.add(new Concert());
+        pagedlist.add(new Concert());
+        pagedlist.add(new Concert());
+        pagedlist.add(new Concert());
+
         convertList.setValue(pagedlist);
 
     }
@@ -32,4 +45,37 @@ public class ConcertViewModel extends BaseViewModel {
     public LiveData<ArrayList<Concert>> getConvertList() {
         return convertList;
     }
+    public void setdatalist(){
+        pagedlist=new ArrayList();
+        pagedlist.add(new Concert().reset());
+        pagedlist.add(new Concert().reset());
+        pagedlist.add(new Concert().reset());
+        pagedlist.add(new Concert().reset());
+        pagedlist.add(new Concert().reset());
+        pagedlist.add(new Concert().reset());
+        pagedlist.add(new Concert().reset());
+        pagedlist.add(new Concert().reset());
+        pagedlist.add(new Concert().reset());
+        pagedlist.add(new Concert().reset());
+        pagedlist.add(new Concert().reset());
+        pagedlist.add(new Concert().reset());
+
+        convertList.setValue(pagedlist);
+    }
+    public void setOnload(){
+
+        pagedlist.add(new Concert());
+        pagedlist.add(new Concert());
+        pagedlist.add(new Concert());
+        pagedlist.add(new Concert());
+        pagedlist.add(new Concert());
+        pagedlist.add(new Concert());
+        pagedlist.add(new Concert());
+        pagedlist.add(new Concert());
+        pagedlist.add(new Concert());
+        pagedlist.add(new Concert());
+
+        convertList.setValue(pagedlist);
+    }
+
 }

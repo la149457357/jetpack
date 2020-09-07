@@ -17,6 +17,12 @@ public class Concert {
         this.author = "author";
         this.content = "content";
     }
+    public Concert reset(){
+        this.title ="11111";
+        this.author= "3333";
+        this.content="qqqq";
+        return this;
+    }
 
     public String getTitle() {
         return title;
