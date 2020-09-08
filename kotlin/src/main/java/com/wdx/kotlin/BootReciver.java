@@ -11,7 +11,7 @@ import androidx.annotation.RequiresApi;
  * @ Author: wdx
  * @ CreateDate: 2020/9/8 14:45
  */
-class BootReciver extends BroadcastReceiver {
+public class BootReciver extends BroadcastReceiver {
     @RequiresApi(api = VERSION_CODES.O)
     @Override
     public void onReceive(Context context, Intent intent) {

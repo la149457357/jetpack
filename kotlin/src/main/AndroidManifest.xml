@@ -18,12 +18,13 @@
         </activity>
 
         <service android:name=".TestNewService"
+            android:process=":uploadImage"
             android:enabled="true" >
             <intent-filter android:priority="1000" >
                 <action android:name="com.wdx.kotlin.TestNewService" />
             </intent-filter>
         </service>
-        <receiver android:name=".BootReceiver" >
+        <receiver android:name=".BootReciver" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.USER_PRESENT" />
