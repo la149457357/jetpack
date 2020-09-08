@@ -1,39 +1,26 @@
 package com.wdx.center;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.DiffUtil.ItemCallback;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import androidx.recyclerview.widget.RecyclerView.OnItemTouchListener;
-import androidx.room.Room;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.work.BackoffPolicy;
 import androidx.work.Constraints;
 import androidx.work.Data;
 import androidx.work.NetworkType;
 import androidx.work.OneTimeWorkRequest;
-import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
 import com.wdx.center.adapter.ConcertViewAdapter;
-import com.wdx.center.adapter.MyListAdapter;
 import com.wdx.center.adapter.SimplePaddingDecoration;
-import com.wdx.center.app.MyApplication;
-import com.wdx.center.room.database.AppDatabase;
 import com.wdx.center.view.MySwipeRefreshLayout;
 import com.wdx.center.view.MySwipeRefreshLayout.OnLoadMoreListener;
 import com.wdx.center.view.VideoPlayerView;
@@ -45,10 +32,8 @@ import com.wdx.model.ConcertViewModel;
 import com.wdx.model.UserViewModel;
 import com.wdx.tv.Movie;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
-
-public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener{
+public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener {
 
 
     @Override
@@ -68,16 +53,16 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
 
     private void getsharedInfo() {
         SharedPreferences sp = getSharedPreferences("file",
-               this .MODE_PRIVATE);
-        Toast.makeText(this,"click item",Toast.LENGTH_SHORT).show();
-        Map<String,?> map=sp.getAll();
-        if(map == null){
+                this.MODE_PRIVATE);
+        Toast.makeText(this, "click item", Toast.LENGTH_SHORT).show();
+        Map<String, ?> map = sp.getAll();
+        if (map == null) {
 
-            Toast.makeText(this,"shared is null",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "shared is null", Toast.LENGTH_SHORT).show();
         }
-        for(String key : map.keySet()){
-           // map.get(key);
-            Log.e("wdx","shared value =  "+key+map.get(key));
+        for (String key : map.keySet()) {
+            // map.get(key);
+            Log.e("wdx", "shared value =  " + key + map.get(key));
         }
 
     }
@@ -89,7 +74,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                 .setInitialDelay(5000, TimeUnit.MILLISECONDS) // 在满足约束条件的前提下，初始延迟时间为5S
                 .setBackoffCriteria(BackoffPolicy.LINEAR,10,TimeUnit.SECONDS) // 重试间隔时间为：curTime + 10 * 重试次数
                 .build();*/
-       // PeriodicWorkRequest secondWork = new PeriodicWorkRequest.Builder(MyListenWorker.class,15,TimeUnit.MINUTES).build();
+        // PeriodicWorkRequest secondWork = new PeriodicWorkRequest.Builder(MyListenWorker.class,15,TimeUnit.MINUTES).build();
 //1.约束条件
         //Constraints myconstraints = new Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build();
         Constraints constraints = new Constraints.Builder()
@@ -100,9 +85,10 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                 .setRequiresDeviceIdle(true)//在待机状态执行
                 .build();
 //2.传入参数
-        Data data = new Data.Builder().putString("demo","helloworld").build();
+        Data data = new Data.Builder().putString("demo", "helloworld").build();
 //3.构造work
-        OneTimeWorkRequest httpwork = new OneTimeWorkRequest.Builder(MyListenWorker.class).setConstraints(constraints).setInputData(data).build();
+        OneTimeWorkRequest httpwork = new OneTimeWorkRequest.Builder(MyListenWorker.class)
+                .setConstraints(constraints).setInputData(data).build();
 //4.放入执行队列
         WorkManager.getInstance(this).enqueue(httpwork);
 
@@ -120,7 +106,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     }
 
     private void startService() {
-        Intent intent=new Intent(this, TestNewService.class);
+        Intent intent = new Intent(this, TestNewService.class);
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             //适配8.0机制
             this.startForegroundService(intent);
@@ -131,10 +117,10 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
 
     private void setData() {
         //测试代码
-        KotlinTest kotlinTest=new KotlinTest();
-        Movie movie=new Movie();
-        TestNewService myser=new TestNewService();
-        MyTestImpl myTest=new MyTestImpl();
+        KotlinTest kotlinTest = new KotlinTest();
+        Movie movie = new Movie();
+        TestNewService myser = new TestNewService();
+        MyTestImpl myTest = new MyTestImpl();
 
         //-------------------
     }
@@ -144,31 +130,33 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     RecyclerView rcv_list;
     ConcertViewModel viewModel;
     MySwipeRefreshLayout swipeRefreshLayout;
+
     private void initView() {
-        VideoPlayerView videoPlayerView=new VideoPlayerView(this);
+        VideoPlayerView videoPlayerView = new VideoPlayerView(this);
         videoPlayerView.setLifecycleOwner(this);
 
         et_input = findViewById(R.id.et_input);
         rcv_list = findViewById(R.id.rcv_list);
 
-        swipeRefreshLayout =findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setRecycleView(rcv_list);
-
 
         ConcertViewAdapter adapter = new ConcertViewAdapter();
         viewModel = new ConcertViewModel();
         viewModel.getConvertList().observe(this, concerts -> adapter.submitList(concerts));
         rcv_list.setAdapter(adapter);
-        rcv_list.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        rcv_list.setLayoutManager(
+                new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         rcv_list.addItemDecoration(new SimplePaddingDecoration(this));
 
     }
+
     private void setListener() {
         swipeRefreshLayout.setOnRefreshListener(this);
         rcv_list.addOnItemTouchListener(new OnItemTouchListener() {
             @Override
             public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
-                switch (e.getAction()){
+                switch (e.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         getsharedInfo();
                         break;
@@ -182,7 +170,6 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
             @Override
             public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
 
-
             }
 
             @Override
@@ -194,7 +181,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
             @Override
             public void onLoadMore() {
                 viewModel.setOnload();
-                Toast.makeText(MainActivity.this,"loadmore",Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "loadmore", Toast.LENGTH_SHORT).show();
             }
         });
         et_input.addTextChangedListener(new TextWatcher() {
@@ -210,7 +197,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(s!=null){
+                if (s != null) {
                     userViewModel.userInfo.setName(s.toString());
                 }
             }

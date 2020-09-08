@@ -18,7 +18,6 @@
         </activity>
 
         <service android:name=".TestNewService"
-            android:process=":uploadImage"
             android:enabled="true" >
             <intent-filter android:priority="1000" >
                 <action android:name="com.wdx.kotlin.TestNewService" />
