@@ -190,7 +190,7 @@ public class MySwipeRefreshLayout extends SwipeRefreshLayout {
 
     }
 
-    @Override
+   /* @Override
     public void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
@@ -210,5 +210,5 @@ public class MySwipeRefreshLayout extends SwipeRefreshLayout {
         View child = this.getChildAt(0);
         child.layout(childLeft, childTop, width - getPaddingRight(), height - getPaddingBottom());
 
-    }
+    }*/
 }
