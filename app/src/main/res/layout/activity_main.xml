@@ -4,18 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-            <variable
-                name="userInfo"
-                type="com.wdx.model.info.UserInfo" />
+        <variable
+            name="userInfo"
+            type="com.wdx.model.info.UserInfo" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".MainActivity">
-
-
-
 
         <LinearLayout
             android:id="@+id/lin_input"

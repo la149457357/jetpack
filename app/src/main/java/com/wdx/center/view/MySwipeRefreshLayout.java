@@ -32,7 +32,7 @@ import com.wdx.common.utils.DensityUtils;
  * @ Author: wdx
  * @ CreateDate: 2020/9/7 15:17
  */
-public class MySwipeRefreshLayout extends LinearLayout {
+public class MySwipeRefreshLayout extends SwipeRefreshLayout {
 
     /**
      * 滑动到最下面时的上拉操作

@@ -1,21 +1,33 @@
 package com.wdx.center;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DiffUtil.ItemCallback;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import androidx.recyclerview.widget.RecyclerView.OnItemTouchListener;
 import androidx.room.Room;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.work.BackoffPolicy;
+import androidx.work.Constraints;
+import androidx.work.Data;
+import androidx.work.NetworkType;
 import androidx.work.OneTimeWorkRequest;
+import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
 import com.wdx.center.adapter.ConcertViewAdapter;
 import com.wdx.center.adapter.MyListAdapter;
@@ -32,6 +44,7 @@ import com.wdx.kotlin.TestNewService;
 import com.wdx.model.ConcertViewModel;
 import com.wdx.model.UserViewModel;
 import com.wdx.tv.Movie;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 
@@ -50,17 +63,48 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         setListener();
         startService();
         startWorkManager();
+
     }
 
+    private void getsharedInfo() {
+        SharedPreferences sp = getSharedPreferences("file",
+               this .MODE_PRIVATE);
+        Toast.makeText(this,"click item",Toast.LENGTH_SHORT).show();
+        Map<String,?> map=sp.getAll();
+        if(map == null){
 
+            Toast.makeText(this,"shared is null",Toast.LENGTH_SHORT).show();
+        }
+        for(String key : map.keySet()){
+           // map.get(key);
+            Log.e("wdx","shared value =  "+key+map.get(key));
+        }
+
+    }
 
 
     private void startWorkManager() {
 
-        OneTimeWorkRequest secondWork = new OneTimeWorkRequest.Builder(MyListenWorker.class)
+       /* OneTimeWorkRequest secondWork = new OneTimeWorkRequest.Builder(MyListenWorker.class)
                 .setInitialDelay(5000, TimeUnit.MILLISECONDS) // 在满足约束条件的前提下，初始延迟时间为5S
                 .setBackoffCriteria(BackoffPolicy.LINEAR,10,TimeUnit.SECONDS) // 重试间隔时间为：curTime + 10 * 重试次数
+                .build();*/
+       // PeriodicWorkRequest secondWork = new PeriodicWorkRequest.Builder(MyListenWorker.class,15,TimeUnit.MINUTES).build();
+//1.约束条件
+        //Constraints myconstraints = new Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build();
+        Constraints constraints = new Constraints.Builder()
+                .setRequiredNetworkType(NetworkType.CONNECTED)
+                .setRequiresBatteryNotLow(true)//不在电量不足时执行
+                .setRequiresCharging(true)//在充电时执行
+                .setRequiresStorageNotLow(true)//不在存储容量不足时执行
+                .setRequiresDeviceIdle(true)//在待机状态执行
                 .build();
+//2.传入参数
+        Data data = new Data.Builder().putString("demo","helloworld").build();
+//3.构造work
+        OneTimeWorkRequest httpwork = new OneTimeWorkRequest.Builder(MyListenWorker.class).setConstraints(constraints).setInputData(data).build();
+//4.放入执行队列
+        WorkManager.getInstance(this).enqueue(httpwork);
 
       /*  OneTimeWorkRequest workA = OneTimeWorkRequest.from(MyListenWorker.class);
         OneTimeWorkRequest workB = OneTimeWorkRequest.from(MyListenWorker.class);
@@ -69,15 +113,20 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     .beginWith(Arrays.asList(workA, workB))
                 .then(workC)
                 .enqueue();*/
-        WorkManager
+     /*   WorkManager
                 .getInstance(this)
                 .enqueue(secondWork);
-
+*/
     }
 
     private void startService() {
         Intent intent=new Intent(this, TestNewService.class);
-        this.startService(intent);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            //适配8.0机制
+            this.startForegroundService(intent);
+        } else {
+            this.startService(intent);
+        }
     }
 
     private void setData() {
@@ -104,6 +153,8 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
 
         swipeRefreshLayout =findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setRecycleView(rcv_list);
+
+
         ConcertViewAdapter adapter = new ConcertViewAdapter();
         viewModel = new ConcertViewModel();
         viewModel.getConvertList().observe(this, concerts -> adapter.submitList(concerts));
@@ -113,7 +164,32 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
 
     }
     private void setListener() {
-       // swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.setOnRefreshListener(this);
+        rcv_list.addOnItemTouchListener(new OnItemTouchListener() {
+            @Override
+            public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+                switch (e.getAction()){
+                    case MotionEvent.ACTION_DOWN:
+                        getsharedInfo();
+                        break;
+                    case MotionEvent.ACTION_UP:
+
+                        break;
+                }
+                return false;
+            }
+
+            @Override
+            public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+
+
+            }
+
+            @Override
+            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+            }
+        });
         swipeRefreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
@@ -153,6 +229,18 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     @Override
     public void onRefresh() {
         viewModel.setdatalist();
-        //swipeRefreshLayout.setRefreshing(false);
+        swipeRefreshLayout.setRefreshing(false);
+        SharedPreferences sp = this.getSharedPreferences("file", this.MODE_PRIVATE);
+
+        sp.edit().clear().commit();
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //stopForeground(true);
+        Intent intent = new Intent("com.dbjtech.waiqin.destroy");
+        sendBroadcast(intent);
     }
 }

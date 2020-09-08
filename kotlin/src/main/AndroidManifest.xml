@@ -7,6 +7,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
+        android:persistent="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".TestActivity">
@@ -16,10 +17,20 @@
 
         </activity>
 
-        <service android:name=".TestNewService">
-
+        <service android:name=".TestNewService"
+            android:enabled="true" >
+            <intent-filter android:priority="1000" >
+                <action android:name="com.wdx.kotlin.TestNewService" />
+            </intent-filter>
         </service>
-
+        <receiver android:name=".BootReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.USER_PRESENT" />
+                <action android:name="android.intent.action.PACKAGE_RESTARTED" />
+                <action android:name="com.dbjtech.waiqin.destroy" />//这个就是自定义的action
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

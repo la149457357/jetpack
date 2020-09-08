@@ -29,7 +29,7 @@ import okio.Source;
  */
 
 public class MyUploadFile {
-    public static String TAG = "wdx";
+    public static String TAG = "AAA";
     OkHttpClient okHttpClient=new OkHttpClient();
 
     public <T> void upLoadFile(String actionUrl, HashMap<String, Object> paramsMap, final UpLoadFileUtil.UpStatueCallBack callBack) {

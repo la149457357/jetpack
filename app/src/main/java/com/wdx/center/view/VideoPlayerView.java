@@ -40,7 +40,7 @@ public class VideoPlayerView extends LinearLayout {
 
     }
 
-    private static final String TAG = "wdx";
+    private static final String TAG = "AAA";
 
     private LifecycleOwner mLifecycleOwner;
 

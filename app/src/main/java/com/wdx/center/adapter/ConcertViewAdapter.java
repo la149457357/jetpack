@@ -52,7 +52,6 @@ public class ConcertViewAdapter extends RecyclerView.Adapter<ConcertViewAdapter.
         if(concerts == null){
             return 0;
         }
-        Log.e("wdx",""+concerts.size());
         return concerts.size();
     }
 
