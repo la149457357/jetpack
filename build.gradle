@@ -1,3 +1,7 @@
+import com.sun.org.apache.bcel.internal.generic.Select
+
+import java.lang.ref.WeakReference
+
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 apply from: 'mystudy.gradle'
 buildscript {
@@ -61,3 +65,19 @@ task clean(type: Delete) {
     delete rootProject.buildDir
 
 }
+task check(){
+    println("111111111111")
+}
+task build(){
+    println("111111111111")
+}
+task deviceCheck(){
+    println("111111111111")
+}
+//assemble/assembleDebug/assembleRelease：针对每个版本/debug版/Release版创建一个apk。
+//　　clean ：清除所有的构建任务的output，包含apk文件
+//　　check： 执行Lint检查并且能够在Lint检测到错误后停止运行
+//　build ：执行assemble和check
+//　　connectedCheck： 在测试机上执行所有测试任务
+//　deviceCheck ：执行所有在远程设备上的测试任务
+//　installDebug和installRelease :在设备上安装一个Debug/Release版本
