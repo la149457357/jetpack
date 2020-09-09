@@ -1,5 +1,5 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
-apply from : 'mystudy.gradle'
+apply from: 'mystudy.gradle'
 buildscript {
     ext.kotlin_version = '1.4.0'
     repositories {
@@ -23,6 +23,41 @@ allprojects {
     }
 }
 
+def info() {
+    def rootFiles = new File("app").listRoots()
+
+    rootFiles.each {
+        file -> println file.absolutePath
+    }
+    new File("app").eachFile() {
+        file -> println file.getAbsolutePath()
+    }
+    new File("app").eachFileRecurse() {
+        file -> println file.getAbsolutePath()
+
+    }
+    def str1 = "Hello";
+    def clos = { param -> println "${str1} ${param}" }
+    clos.call("World");
+    def lst = [1, 2, 3, 4];
+    lst.each { println it }
+    println("The list will only display those numbers which are divisible by 2")
+    lst.each { num -> if (num % 2 == 0) println num }
+
+}
+
+version = '1.0.0'
+task printVersion{
+    info()
+    doFirst {
+        println "Before reading the project version"
+    }
+    doLast {
+        println "Version: $version"
+    }
+}
+
 task clean(type: Delete) {
     delete rootProject.buildDir
+
 }
