@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.Lifecycle.State;
 import androidx.lifecycle.LifecycleRegistry;
 import com.wdx.center.databinding.ActivityMainBinding;
 
@@ -33,36 +34,34 @@ class BaseActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        mLifecycleRegistry.setCurrentState(Lifecycle.State.CREATED);
+        mLifecycleRegistry.setCurrentState(Lifecycle.State.STARTED);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        mLifecycleRegistry.setCurrentState(Lifecycle.State.CREATED);
+        mLifecycleRegistry.setCurrentState(Lifecycle.State.RESUMED);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        mLifecycleRegistry.setCurrentState(Lifecycle.State.CREATED);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        mLifecycleRegistry.setCurrentState(Lifecycle.State.CREATED);
+
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
-        mLifecycleRegistry.setCurrentState(Lifecycle.State.CREATED);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mLifecycleRegistry.setCurrentState(Lifecycle.State.CREATED);
+        mLifecycleRegistry.setCurrentState(Lifecycle.State.DESTROYED);
     }
 }
