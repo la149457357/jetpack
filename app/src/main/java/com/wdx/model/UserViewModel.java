@@ -26,6 +26,13 @@ public class UserViewModel extends BaseViewModel {
     LiveData<String> userId ;
     LiveData<UserInfo> user = Transformations.switchMap(userId, id -> getUser(id) );
 
+    LiveData<UserInfo> userLiveData ;
+    LiveData<String> userName = Transformations.map(userLiveData, user -> {
+       // userLiveData.name + " " + userLiveData.lastName;
+        return null;
+    });
+
+
     public UserViewModel(){
         if(userInfo == null){
             userInfo = new UserInfo();
@@ -35,12 +42,7 @@ public class UserViewModel extends BaseViewModel {
         this.userInfo.setName(name);
 
     }
-    MutableLiveData<String> nameQueryLiveData = new MutableLiveData<>("33333") ;
 
-
-    void setNameQuery(String name) {
-        this.nameQueryLiveData.setValue(name);
-    }
     public void requestData(){
        /* MyOkHttpUtils.getInstances().request_okPost(this,BaseConfig.LOGIN,new LoginInfoResult(),loginParams,mUserCallBack,myProgressDialog);*/
         UserParams userParams = new UserParams();
