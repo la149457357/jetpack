@@ -1,16 +1,16 @@
 package com.wdx.model;
 
-import android.content.Context;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.Transformations;
 import com.wdx.common.base.BaseConfig;
 import com.wdx.model.info.UserInfo;
 import com.wdx.model.params.UserParams;
 import com.wdx.model.repository.BaseViewModel;
 import com.wdx.model.repository.CommonRepository;
 import com.wdx.model.response.UserInfoResult;
-import java.lang.ref.WeakReference;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @ Description:
@@ -19,6 +19,12 @@ import java.lang.ref.WeakReference;
  */
 public class UserViewModel extends BaseViewModel {
     public UserInfo userInfo;
+    private LiveData<UserInfo> getUser(String id) {
+        return  null;
+    }
+
+    LiveData<String> userId ;
+    LiveData<UserInfo> user = Transformations.switchMap(userId, id -> getUser(id) );
 
     public UserViewModel(){
         if(userInfo == null){
@@ -28,6 +34,12 @@ public class UserViewModel extends BaseViewModel {
     public void requestServerInfo(String name) {
         this.userInfo.setName(name);
 
+    }
+    MutableLiveData<String> nameQueryLiveData = new MutableLiveData<>("33333") ;
+
+
+    void setNameQuery(String name) {
+        this.nameQueryLiveData.setValue(name);
     }
     public void requestData(){
        /* MyOkHttpUtils.getInstances().request_okPost(this,BaseConfig.LOGIN,new LoginInfoResult(),loginParams,mUserCallBack,myProgressDialog);*/
