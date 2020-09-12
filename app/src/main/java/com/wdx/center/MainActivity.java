@@ -24,6 +24,7 @@ import com.wdx.center.adapter.SimplePaddingDecoration;
 import com.wdx.center.view.MySwipeRefreshLayout;
 import com.wdx.center.view.MySwipeRefreshLayout.OnLoadMoreListener;
 import com.wdx.center.view.VideoPlayerView;
+import com.wdx.center.web.MyWebActivity;
 import com.wdx.center.worker.MyListenWorker;
 import com.wdx.common.midia.MyTestImpl;
 import com.wdx.kotlin.KotlinTest;
@@ -46,7 +47,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         initView();
         setData();
         setListener();
-        startService();
+        //startService();
         startWorkManager();
 
     }
@@ -151,6 +152,13 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
 
     }
 
+    public void startWebActivity() {
+        Intent intent=new Intent();
+        intent.setClass(this, MyWebActivity.class);
+        intent.putExtra("url","");
+        this.startActivity(intent);
+    }
+
     private void setListener() {
         swipeRefreshLayout.setOnRefreshListener(this);
         rcv_list.addOnItemTouchListener(new OnItemTouchListener() {
@@ -158,6 +166,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
             public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
                 switch (e.getAction()) {
                     case MotionEvent.ACTION_DOWN:
+                        startWebActivity();
                         getsharedInfo();
                         break;
                     case MotionEvent.ACTION_UP:
@@ -166,6 +175,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                 }
                 return false;
             }
+
 
             @Override
             public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {

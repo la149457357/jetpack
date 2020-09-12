@@ -3,6 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.wdx.center">
 
+    <uses-permission android:name="android.permission.INTERNET">
+
+    </uses-permission>
     <application
         android:name=".app.MyApplication"
         android:allowBackup="true"
@@ -19,7 +22,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity" />
-
+        <activity android:name=".web.MyWebActivity" />
 
         <provider
             android:name="androidx.work.impl.WorkManagerInitializer"

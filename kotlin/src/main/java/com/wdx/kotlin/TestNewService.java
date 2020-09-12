@@ -40,7 +40,7 @@ public class TestNewService extends Service {
                 // Normally we would do some work here, like download a file.
                 // For our sample, we just sleep for 5 seconds.
                 try {
-                    Thread.sleep(3000);
+                    Thread.sleep(5000);
                     i++;
                     String string = "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^" + i;
                     Log.e("wdx",string);
@@ -56,7 +56,7 @@ public class TestNewService extends Service {
                 // Stop the service using the startId, so that we don't stop
                 // the service in the middle of handling another job
                 stopSelf(msg.arg1);
-                serviceHandler.sendMessageDelayed(new Message(),3000);
+                serviceHandler.sendMessageDelayed(new Message(),5000);
             }
         }
 
