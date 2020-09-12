@@ -49,7 +49,9 @@ public class MyWebActivity extends Activity {
                     url= url.substring(url.indexOf("url=")+4);
                      Log.e("wdx","url11111 = " + url);
                  }else if(url.contains("baiduhaokan")){
-                     webView.loadUrl("https://haokan.baidu.com");
+                     String haokanurl=url.substring(url.indexOf("vid=")+4,url.indexOf("&auto_play_index=0"));
+                     Log.e("wdx","haokan == "+haokanurl);
+                     webView.loadUrl("https://haokan.baidu.com/videoui/page/searchresult?pd=wise&vid="+haokanurl);
                  }else{
                      webView.loadUrl(url);
                  }
