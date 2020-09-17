@@ -77,7 +77,7 @@ public class VideoDetailsFragment extends DetailsFragment {
             initializeBackground(mSelectedMovie);
             setOnItemViewClickedListener(new ItemViewClickedListener());
         } else {
-            Intent intent = new Intent(getActivity(), MainActivity.class);
+            Intent intent = new Intent(getActivity(), TVMainActivity.class);
             startActivity(intent);
         }
     }

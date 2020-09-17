@@ -19,8 +19,10 @@ public class PlaybackVideoFragment extends VideoSupportFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        final Movie movie =
-                (Movie) getActivity().getIntent().getSerializableExtra(DetailsActivity.MOVIE);
+        final Movie movie = new Movie();
+        movie.setTitle("11111");
+        movie.setDescription("wccccc");
+        movie.setVideoUrl("https://v.youku.com/v_show/id_XNTI0MDg5NzMy.html?x=1");
 
         VideoSupportFragmentGlueHost glueHost =
                 new VideoSupportFragmentGlueHost(PlaybackVideoFragment.this);

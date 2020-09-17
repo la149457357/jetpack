@@ -2,10 +2,12 @@ package com.wdx.tv;
 
 import android.os.Bundle;
 import androidx.fragment.app.FragmentActivity;
+import com.alibaba.android.arouter.facade.annotation.Route;
 
 /**
  * Loads {@link PlaybackVideoFragment}.
  */
+
 public class PlaybackActivity extends FragmentActivity {
 
     @Override
