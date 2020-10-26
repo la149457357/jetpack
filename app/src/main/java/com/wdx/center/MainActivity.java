@@ -1,5 +1,7 @@
 package com.wdx.center;
 
+import android.app.ActivityManager;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -22,6 +24,7 @@ import androidx.work.WorkManager;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.wdx.center.adapter.ConcertViewAdapter;
 import com.wdx.center.adapter.SimplePaddingDecoration;
+import com.wdx.center.app.MyApplication;
 import com.wdx.center.view.MySwipeRefreshLayout;
 import com.wdx.center.view.MySwipeRefreshLayout.OnLoadMoreListener;
 import com.wdx.center.view.VideoPlayerView;
@@ -51,6 +54,12 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         //startService();
         startWorkManager();
 
+        test();
+    }
+
+    private void test() {
+        MyApplication.getContext().startActivity(new Intent());
+        this.getApplication().getApplicationContext();
     }
 
     private void getsharedInfo() {

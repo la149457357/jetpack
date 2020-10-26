@@ -16,9 +16,12 @@ import com.wdx.center.room.database.AppDatabase;
  */
 public class MyApplication extends Application implements Configuration.Provider {
 
+    public static Context context;
+
     @Override
     public void onCreate() {
         super.onCreate();
+        context = getApplicationContext();
         WorkManager.getInstance(getApplicationContext());
         //初始化arouter
 
@@ -27,6 +30,11 @@ public class MyApplication extends Application implements Configuration.Provider
         // Initialize the SDK
         ARouter.init(this); // As early as possible, it is recommended to initialize in the Application
        //初始化Room
+    }
+
+    public static Context getContext(){
+        return context;
+
     }
     private static final Object sLock = new Object();
     private static AppDatabase INSTANCE;
