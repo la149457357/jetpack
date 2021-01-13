@@ -36,3 +36,4 @@ git branch -M master
 git remote add origin https://github.com/la149457357/wdx.git
 git push- 你的原主人
                 
+https://github.com/houkx/android-pluginmgr/
