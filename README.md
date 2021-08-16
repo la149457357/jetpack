@@ -41,3 +41,4 @@ https://github.com/houkx/android-pluginmgr/
 
 https://github.com/Trinea/android-open-project#七progressbar 基础组件地址
 z㢟
+me.jessyan:autosize:1.2.1
